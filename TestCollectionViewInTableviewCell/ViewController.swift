@@ -16,10 +16,11 @@ struct Card {
 
 struct Message {
     var cards: [Card]?
+    var selectedPosition: Int = 0
 }
 
 protocol DataCollectionViewCell: class{
-    func dataForCollectionViewCell(indexPath: IndexPath) -> Message
+    func saveCollectionViewCurrentCell(cellIndexPath: IndexPath, position: Int)
 }
 
 class ViewController: UIViewController {
@@ -70,9 +71,11 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 
 extension ViewController: DataCollectionViewCell {
-    func dataForCollectionViewCell(indexPath: IndexPath) -> Message{
-        print("dataForCollectionViewCellIndexPath: \(indexPath)")
-        return messages[indexPath.row]
+    func saveCollectionViewCurrentCell(cellIndexPath: IndexPath, position: Int){
+        print("dataForCollectionViewCellIndexPath: \(cellIndexPath)")
+        if messages.count > cellIndexPath.row{
+            messages[cellIndexPath.row].selectedPosition = position
+        }
     }
 }
 
